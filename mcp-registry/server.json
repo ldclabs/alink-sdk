@@ -5,6 +5,22 @@
 	"description": "Your public AI front door: intents, gatekeeper inbox, relationships, materials, and your sprite.",
 	"version": "0.4.0",
 	"websiteUrl": "https://al.ink",
+	"icons": [
+		{
+			"src": "https://api.al.ink/assets/icon-512.png",
+			"mimeType": "image/png",
+			"sizes": [
+				"512x512"
+			]
+		},
+		{
+			"src": "https://api.al.ink/assets/icon.svg",
+			"mimeType": "image/svg+xml",
+			"sizes": [
+				"any"
+			]
+		}
+	],
 	"remotes": [
 		{
 			"type": "streamable-http",
