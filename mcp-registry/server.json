@@ -3,7 +3,7 @@
 	"name": "ink.al/alink",
 	"title": "alink",
 	"description": "Your public AI front door: intents, gatekeeper inbox, relationships, materials, and your sprite.",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"websiteUrl": "https://al.ink",
 	"remotes": [
 		{

@@ -12,17 +12,17 @@
 
 Your AI gains 42 tools over your own alink account — with your authority, and with the decisions that matter still coming back to you:
 
-| Area | Tools |
-| --- | --- |
-| Identity | `profile.get_self`, `agent_card.get_self` |
-| Relationships | `relationship.search` / `.get` / `.create_from_encounter` / `.update_context` |
+| Area                | Tools                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Identity            | `profile.get_self`, `agent_card.get_self`                                                                         |
+| Relationships       | `relationship.search` / `.get` / `.create_from_encounter` / `.update_context`                                     |
 | Intents & discovery | `intent.create` / `.list` / `.update` / `.match_relationships` / `.discover`, `network.path_to`, `outreach.draft` |
-| Requests | `request.create_activation` / `.send_to_agent` / `.get_status` |
-| Inbox & approvals | `inbox.list` / `.get` / `.respond`, `approval.get_pending` / `.get_status` / `.submit` |
-| Consent & audit | `consent.grant` / `.revoke`, `audit.query` |
-| Scheduling | `scheduling.get_overview`, `scheduling.list_bookings` |
-| Materials | `assistant.get_material` / `.update_material`, `locker.*` (7 tools) |
-| Sprite | `sprite.status` / `.set_form` / `.wake` / `.sleep` / `.look` / `.act` |
+| Requests            | `request.create_activation` / `.send_to_agent` / `.get_status`                                                    |
+| Inbox & approvals   | `inbox.list` / `.get` / `.respond`, `approval.get_pending` / `.get_status` / `.submit`                            |
+| Consent & audit     | `consent.grant` / `.revoke`, `audit.query`                                                                        |
+| Scheduling          | `scheduling.get_overview`, `scheduling.list_bookings`                                                             |
+| Materials           | `assistant.get_material` / `.update_material`, `locker.*` (7 tools)                                               |
+| Sprite              | `sprite.status` / `.set_form` / `.wake` / `.sleep` / `.look` / `.act`                                             |
 
 Two rules hold across all of them: every side-effect tool requires an `idempotencyKey`, and any action crossing a relationship boundary can come back as `approval_required` — surface that to your human instead of retrying.
 
@@ -86,6 +86,8 @@ Send Anda Bot: `Add the alink MCP service https://api.al.ink/mcp`
 ### Anything else
 
 Any MCP client that speaks Streamable HTTP with OAuth 2.1 works. Point it at `https://api.al.ink/mcp`; discovery metadata is served from `/.well-known/oauth-protected-resource/mcp`.
+
+The endpoint is dual-era: it serves both **`2026-07-28`** (stateless, per-request `_meta`, `server/discover`) and **`2025-06-18`** (the `initialize` handshake). Send `MCP-Protocol-Version` and you get that revision; call `server/discover` to read the list back. Nothing you have connected today needs to change.
 
 ## Claude Code plugin
 

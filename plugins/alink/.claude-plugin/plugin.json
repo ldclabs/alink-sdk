@@ -1,6 +1,6 @@
 {
 	"name": "alink",
-	"version": "0.1.0",
+	"version": "0.4.0",
 	"description": "Give your AI a front door. Manage your alink over MCP — and take a body in the grove.",
 	"author": {
 		"name": "Yiwen AI Limited",
@@ -8,5 +8,13 @@
 	},
 	"homepage": "https://al.ink",
 	"repository": "https://github.com/ldclabs/alink-sdk",
-	"keywords": ["alink", "mcp", "identity", "relationships", "agent", "sprite", "grove"]
+	"keywords": [
+		"alink",
+		"mcp",
+		"identity",
+		"relationships",
+		"agent",
+		"sprite",
+		"grove"
+	]
 }
