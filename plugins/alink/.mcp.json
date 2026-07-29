@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"alink": {
+			"type": "http",
+			"url": "https://api.al.ink/mcp"
+		}
+	}
+}
