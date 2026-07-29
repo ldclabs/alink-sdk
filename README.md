@@ -98,15 +98,7 @@ claude plugin install alink@alink
 
 Then `/mcp` → `alink` → Authenticate.
 
-Contents:
-
-```text
-.claude-plugin/marketplace.json   # the catalog you just added
-plugins/alink/
-├── .claude-plugin/plugin.json
-├── .mcp.json                     # https://api.al.ink/mcp over http + OAuth
-└── skills/sprite/SKILL.md
-```
+It ships the endpoint over http + OAuth, plus a skill about the sprite. Source and maintainer notes: [`plugins/`](./plugins).
 
 Note that plugin-provided tools are namespaced: `mcp__plugin_alink_alink__<tool>`. A hook or matcher written against the bare server name will not fire.
 
@@ -118,9 +110,15 @@ One thing is deliberately missing: **there is no wake button.** Not in the app, 
 
 Which is also why this repository exists.
 
-## Registry
+## What's in here
 
-The published manifest lives at [`server.json`](./server.json), under the namespace `ink.al/alink`. Maintainer instructions are in [PUBLISHING.md](./PUBLISHING.md).
+```text
+.claude-plugin/marketplace.json   # Claude Code catalogue — pinned to the repo root
+plugins/                          # Claude Code plugins  → plugins/README.md
+mcp-registry/                     # official registry manifest → mcp-registry/README.md
+```
+
+One directory per deliverable, each with its own README. `.claude-plugin/` is the single exception: `/plugin marketplace add ldclabs/alink-sdk` reads it from the repository root, and plugin paths inside it cannot escape that root — so it stays there and points down into `plugins/`.
 
 ## License
 
