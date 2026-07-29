@@ -16,11 +16,23 @@ Registry names are reverse-DNS with exactly one slash. We use the reverse of `al
 openssl genpkey -algorithm ed25519 -out alink-mcp-registry.pem
 ```
 
-Add a TXT record on `al.ink` carrying the public key hex:
+The PEM is PKCS#8 DER wrapped in base64; both keys are the trailing 32 bytes of their DER encoding, so `tail -c 32` gets at them. **The two sides want different encodings** — the TXT record takes base64, `mcp-publisher login` takes hex:
+
+```bash
+# public key, base64 — goes in the TXT record
+openssl pkey -in alink-mcp-registry.pem -pubout -outform DER | tail -c 32 | base64
+
+# private key, hex (the 32-byte seed) — goes to mcp-publisher login, never into a file here
+openssl pkey -in alink-mcp-registry.pem -outform DER | tail -c 32 | xxd -p -c 32
+```
+
+Add a TXT record on `al.ink` carrying the base64 public key:
 
 ```text
-al.ink. IN TXT "v=MCPv1; k=ed25519; p=<PUBLIC_KEY_HEX>"
+al.ink. IN TXT "v=MCPv1; k=ed25519; p=<PUBLIC_KEY_BASE64>"
 ```
+
+Putting hex in `p=` fails with `401 ... invalid Ed25519 public key size`: the registry base64-decodes that field, and 64 hex characters do not decode to 32 bytes. If the record and the key ever drift apart, `mcp-publisher login` prints the exact record it expects — copy it from there.
 
 > Keep the private key out of this repository — it belongs with the other operational secrets.
 
