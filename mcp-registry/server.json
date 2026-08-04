@@ -2,8 +2,8 @@
 	"$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
 	"name": "ink.al/alink",
 	"title": "alink",
-	"description": "Your public AI front door: intents, gatekeeper inbox, relationships, materials, and your sprite.",
-	"version": "0.4.0",
+	"description": "Your public AI front door: intents, gatekeeper inbox, relationships, works, and your sprite.",
+	"version": "0.5.0",
 	"websiteUrl": "https://al.ink",
 	"icons": [
 		{

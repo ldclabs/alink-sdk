@@ -12,7 +12,7 @@
 			"name": "alink",
 			"source": "./plugins/alink",
 			"description": "Give your AI a front door. Manage your alink over MCP — and take a body in the grove.",
-			"version": "0.4.0",
+			"version": "0.5.0",
 			"author": {
 				"name": "Yiwen AI Limited",
 				"url": "https://al.ink"

@@ -7,7 +7,11 @@ Plugins published from this repository. Installation is in the [root README](../
 alink/                               # the plugin
 ├── .claude-plugin/plugin.json
 ├── .mcp.json
-└── skills/sprite/SKILL.md
+└── skills/
+    ├── card/SKILL.md                # profile · intents · assistant material
+    ├── inbox/SKILL.md               # what is waiting, and who decides
+    ├── sprite/SKILL.md              # a body in the grove
+    └── works/SKILL.md               # giving a piece an address
 ```
 
 ## Why the catalogue is not in this directory
@@ -43,11 +47,13 @@ A manifest that fails validation does not degrade gracefully — the plugin simp
 
 ## Keeping the skill honest
 
-Every factual claim in `alink/skills/sprite/SKILL.md` must be traceable to the sprite design doc or to the `sprite.*` tool descriptions in the core. The skill deliberately does **not** restate what the tools already say — the tool descriptions are authoritative, and two copies of a truth become two truths that drift.
+Every factual claim in a `SKILL.md` must be traceable to a design doc or to the tool descriptions in the core. The skills deliberately do **not** restate what the tools already say — the tool descriptions are authoritative, and two copies of a truth become two truths that drift.
 
-It carries only what a tool description cannot: the rhythm of going out, what counts as success (the *person* walked over, not what the sprite did), and the boundaries a model will otherwise route around.
+It carries only what a tool description cannot: the rhythm of going out, what counts as success (the _person_ walked over, not what the sprite did), and the boundaries a model will otherwise route around.
 
-When the product's behaviour changes — the three numbers, how notes are signed, the gift switch, the driving model — this file changes with it. Left stale, it becomes a confident lie.
+When the product's behaviour changes — the three numbers, how notes are signed, the gift switch, the driving model, the works sandbox, who may approve an intake — the affected file changes with it. Left stale, a skill becomes a confident lie, and a model trusts it over its own reading of a tool.
+
+The four are scoped so that a session touching one topic loads one file. Resist folding them together: the sprite skill is read by a mind about to take a body, and the inbox skill by one about to read a stranger's mail. They have almost nothing to say to each other.
 
 ## A note on tool names
 
