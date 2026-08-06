@@ -46,7 +46,7 @@ mcp-publisher publish mcp-registry/server.json
 
 ## Rules that bite
 
-- **`description` is capped at 100 characters** by the schema, which also asks for capabilities rather than implementation. It is currently 96 — count before adding a word.
+- **`description` is capped at 100 characters** by the schema, which also asks for capabilities rather than implementation. It is currently 91 — count before adding a word. Capability order is deliberate: works and sprite lead (the player-first narrative, PRD v4.12), the gatekeeper closes.
 - `version` tracks the deployed core. Re-publish only when the **tool surface** changes; a re-publish that changes nothing is noise.
 - `repository` is deliberately absent. The schema defines it as "repository metadata for the MCP server source code", and the server's source is not this repository. Add it if the core is ever opened.
 - Retire an entry with `mcp-publisher status --status deprecated --message ...` rather than deleting it.
