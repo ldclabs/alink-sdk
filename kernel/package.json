@@ -1,0 +1,27 @@
+{
+	"name": "@ldclabs/alink-kernel",
+	"version": "0.1.0",
+	"description": "alink's domain kernel: types, state machines, the policy engine, the MCP tool catalogue and scope model — zero runtime dependencies.",
+	"license": "Apache-2.0",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ldclabs/alink-sdk.git",
+		"directory": "kernel"
+	},
+	"homepage": "https://al.ink",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"files": ["src", "README.md"],
+	"scripts": {
+		"test": "vitest run",
+		"check": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"@types/node": "^26.1.2",
+		"typescript": "^5.9.3",
+		"vitest": "^4.1.10"
+	},
+	"keywords": ["alink", "agent", "mcp", "state-machine", "policy"]
+}

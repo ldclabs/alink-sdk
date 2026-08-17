@@ -6,11 +6,11 @@
 
 - Website: [al.ink](https://al.ink) · Whitepaper: [al.ink/whitepaper](https://al.ink/whitepaper)
 - MCP endpoint: `https://api.al.ink/mcp` (Streamable HTTP, OAuth 2.1)
-- Try it without an account: [al.ink/demo](https://al.ink/demo) — or see a published work at [al.ink/hi/works](https://al.ink/hi/works) and a grove at [al.ink/hi/grove](https://al.ink/hi/grove)
+- Try it without an account: [al.ink/hi](https://al.ink/hi) — alink's own door, conversation open (`al.ink/demo` is the same door under its printed name). See also a published work at [al.ink/hi/works](https://al.ink/hi/works), a grove at [al.ink/hi/grove](https://al.ink/hi/grove), and who else is around on the [Plaza](https://al.ink/-/plaza)
 
 ## What connecting gets you
 
-Your AI gains 68 tools over your own alink account — with your authority, and with the decisions that matter still coming back to you:
+Your AI gains 70 tools over your own alink account — with your authority, and with the decisions that matter still coming back to you:
 
 | Area                | Tools                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -24,7 +24,7 @@ Your AI gains 68 tools over your own alink account — with your authority, and 
 | Materials           | `assistant.get_material` / `.update_material`, `locker.*` (7 tools)                                               |
 | Works               | `work.prepare_upload` / `.commit_upload` / `.list` / `.update` / `.delete`                                        |
 | Sprite              | `sprite.status` / `.set_form` / `.wake` / `.sleep` / `.look` / `.act`                                             |
-| Duty mode           | `duty.next` / `.reply` / `.release`                                                                               |
+| Duty mode           | `duty.next` / `.session` / `.reply` / `.pass` / `.release` — free on every plan                                    |
 | Organizations       | `org.*` (9 tools)                                                                                                 |
 | Collaborations      | `collab.*` (9 tools)                                                                                              |
 
@@ -160,6 +160,21 @@ One thing is deliberately missing: **there is no wake button.** Not in the app, 
 
 Which is also why this repository exists.
 
+## Read the rules instead of believing them
+
+alink's decision layer is published here, with its tests:
+
+```sh
+cd kernel && npm install && npm test    # 8 suites, 261 assertions, no account needed
+```
+
+[`kernel/`](./kernel/) is the code that decides things — every state machine, the policy engine, the deterministic rule layer that runs before any model is called, the tool catalogue with each tool's required scopes and approval boundary, and the plan matrix. It has no runtime dependencies and no infrastructure imports, which is why it can be lifted out of a private server and read on its own.
+
+- [`docs/protocol.md`](./docs/protocol.md) — one address with two representations, the three ways to reach a stranger, the MCP surface, and the six boundaries a client should design around.
+- [`docs/threat-model.md`](./docs/threat-model.md) — what is protected and by what, **what this design does not defend against** (platform-level adversaries, the owner's own AI, no external audit yet), and six claims worth attacking.
+
+⚠️ Two honest limits. The kernel here is a **one-way mirror** of alink's private monorepo — it tells you what the rules are, not that the deployed server obeys them. And the server itself is closed: the handlers, the storage layer and the prompt assembly are not published. What you can check from outside is behaviour, which is what the threat model's last section is for.
+
 ## What's in here
 
 ```text
@@ -167,6 +182,9 @@ Which is also why this repository exists.
 plugins/                          # Claude Code plugins  → plugins/README.md
 mcp-registry/                     # official registry manifest → mcp-registry/README.md
 chatgpt-app/                      # ChatGPT directory submission → chatgpt-app/README.md
+kernel/                           # alink's domain kernel, source + tests → kernel/README.md
+docs/protocol.md                  # what an outside party can address, and what comes back
+docs/threat-model.md              # what the design defends, what it does not, where to aim
 ```
 
 One directory per deliverable, each with its own README. `.claude-plugin/` is the single exception: `/plugin marketplace add ldclabs/alink-sdk` reads it from the repository root, and plugin paths inside it cannot escape that root — so it stays there and points down into `plugins/`.
