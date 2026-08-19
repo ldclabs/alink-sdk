@@ -134,9 +134,22 @@ export interface PrincipalDocument {
 	name?: string
 	description?: string
 	avatar_url?: string
+	/**
+	 * Other HTTPS URLs that lead here (agent-delegation/1.0 §5.4). An alias is an
+	 * entry point, never an identity — and a client MUST NOT show one as this
+	 * principal's name unless the principal listed it here, because any origin
+	 * can redirect to any id while only the document itself can acknowledge.
+	 */
+	aliases?: readonly string[]
 	links?: readonly ProfileLink[]
 	controllers: readonly AgentDid[]
-	delegations_url?: string
+	/**
+	 * Existence-check endpoint for this principal's delegations (§8.6).
+	 * ⚠️ MUST NOT be an endpoint that lets an unauthenticated caller walk the
+	 * whole graph: one credential is public, the shape of every relationship a
+	 * principal has is not.
+	 */
+	delegation_query_url?: string
 	updated_at?: number
 	extra?: Record<string, JsonValue>
 }
@@ -240,13 +253,17 @@ export interface ServiceEndpoint {
 	protocols?: readonly string[]
 }
 
+/**
+ * A profile's index hint (§9). ⚠️ Carries no service URL by design: the agent
+ * publishing this profile is the party under verification, so a URL it supplies
+ * verifies nothing. The relying party resolves `principal.id` and reads
+ * `delegation_query_url` from the authoritative document instead.
+ */
 export interface DelegationHint {
 	id?: string
 	principal: PrincipalDescriptor
 	relationship?: string
 	scopes?: readonly string[]
-	credential_url: string
-	status_url?: string
 }
 
 export interface AgentProfileDocument {
@@ -265,7 +282,13 @@ export interface AgentProfileDocument {
 	event_id: string
 }
 
-export type DelegationStatus = 'active' | 'suspended' | 'expired' | 'revoked'
+export const DELEGATION_STATUSES = ['active', 'suspended', 'expired', 'revoked'] as const
+
+export type DelegationStatus = (typeof DELEGATION_STATUSES)[number]
+
+export function isValidDelegationStatus(value: string): value is DelegationStatus {
+	return (DELEGATION_STATUSES as readonly string[]).includes(value)
+}
 
 export type DelegationRelationship =
 	'primary_delegate' | 'assistant' | 'organization_delegate' | 'service_agent' | (string & {})
@@ -299,7 +322,6 @@ export interface DelegationCredential {
 	not_before?: number
 	expires_at?: number
 	status: DelegationStatus
-	status_url?: string
 	updated_at: number
 	event_id: string
 }
@@ -311,3 +333,31 @@ export interface DelegationStatusDocument {
 	expires_at?: number
 	event_id: string
 }
+
+/**
+ * A delegation query (§8.6). ⚠️ `subject` AND `principal_id` together are what
+ * makes a query PUBLIC: it answers one existence question the asker already
+ * had both halves of. Drop either half and the same endpoint enumerates one
+ * party's delegation graph — an org chart, a household, a legal
+ * representation — which is why that shape needs the enumerated party's own
+ * authorization and is refused here.
+ */
+export interface DelegationQuery {
+	subject: AgentDid
+	principal_id: string
+	id?: string
+	status?: DelegationStatus
+	limit?: number
+}
+
+/** The redacted subset §8.6 requires a visible result to keep. */
+export interface DelegationSummary {
+	id: string
+	subject: AgentDid
+	principal: PrincipalDescriptor
+	scopes: readonly string[]
+	status: DelegationStatus
+}
+
+export const DELEGATION_QUERY_LIMIT_DEFAULT = 20
+export const DELEGATION_QUERY_LIMIT_MAX = 100
